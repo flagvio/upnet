@@ -23,6 +23,8 @@ class FMain(Gtk.Window):
 		
 		self.add(hbox)        
 	def corpo_dx(self):
+		hbox= Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL, spacing=1)
+		hbox.set_homogeneous(False)
 		vbox= Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=1)
 		vbox.set_homogeneous(False)
 		
@@ -32,9 +34,13 @@ class FMain(Gtk.Window):
 		vbox.pack_start(label, False, True, 0)
 		
 		entry = Gtk.Entry()
-		entry.set_text("                  ")
-		entry.set_editable(False)
-		vbox.pack_start(entry, False, True, 0)
+		#entry.set_text("                  ")
+		entry.set_editable(False)		
+		hbox.pack_start(entry, False, True, 0)
+		bt = Gtk.Button.new_with_label("....")
+		bt.connect("clicked", self.btClickScegli)
+		hbox.pack_start(bt, False, True, 0)
+		vbox.pack_start(hbox, False, True, 0)
 
 		bt = Gtk.Button.new_with_label("avvia")
 		bt.connect("clicked", self.btClickAvvia)
@@ -84,6 +90,40 @@ class FMain(Gtk.Window):
 		
 		
 		return listbox
+	def btClickScegli(self,button):
+		#print("Hai cliccato ...")
+		dialog = Gtk.FileChooserDialog(
+			title="Please choose a file", parent=self, action=Gtk.FileChooserAction.OPEN
+		)
+		dialog.add_buttons(
+			Gtk.STOCK_CANCEL,
+			Gtk.ResponseType.CANCEL,
+			Gtk.STOCK_OPEN,Gtk.ResponseType.OK,
+			)
+		self.add_filters(dialog)
+		response = dialog.run()
+		if response == Gtk.ResponseType.OK:
+			print("Open clicked")
+			print("File selected: " + dialog.get_filename())
+		elif response == Gtk.ResponseType.CANCEL:
+			print("Cancel clicked")
+		
+		dialog.destroy()
+	
+	def add_filters(self, dialog):
+		  filter_text = Gtk.FileFilter()
+		  filter_text.set_name("Text files")
+		  filter_text.add_mime_type("text/plain")
+		  dialog.add_filter(filter_text)
+		  filter_py = Gtk.FileFilter()
+		  filter_py.set_name("Python files")
+		  filter_py.add_mime_type("text/x-python")
+		  dialog.add_filter(filter_py)
+		  filter_any = Gtk.FileFilter()
+		  filter_any.set_name("Any files")
+		  filter_any.add_pattern("*")
+		  dialog.add_filter(filter_any)
+
 	def btClickAggiungi(self,button):
 		print("Hai cliccato AGGIUNGI")
 	def btClickAvvia(self,button):
