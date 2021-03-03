@@ -2,6 +2,57 @@ import gi
 
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
+class apriDialogo(Gtk.Window):
+	def __init__(self):
+		Gtk.Window.__init__(self, title="Dialog Example")
+
+        #dialog = DialogExample(self)
+		dialog = DInserisciDestinatario(self)
+		response = dialog.run()
+
+		msg2= Gtk.MessageDialog(
+            transient_for=self,
+            flags=0,
+            message_type=Gtk.MessageType.INFO,
+            buttons=Gtk.ButtonsType.OK,
+            text="Inserisci l'IP",
+        )
+
+		if response == Gtk.ResponseType.OK:
+			nome=dialog.enNome.get_text()
+			ip=dialog.enIP.get_text()
+			mac=dialog.enMAC.get_text()
+			if nome=="":
+				msg = Gtk.MessageDialog(
+					transient_for=self,
+					flags=0,
+					message_type=Gtk.MessageType.INFO,
+					buttons=Gtk.ButtonsType.OK,
+					text="Inserisci il nome",
+				)
+				msg.run()
+				msg.destroy()
+			elif ip=="":
+				msg = Gtk.MessageDialog(
+					transient_for=self,
+					flags=0,
+					message_type=Gtk.MessageType.INFO,
+					buttons=Gtk.ButtonsType.OK,
+					text="Inserisci l'ip",
+				)
+				msg.run()
+				msg.destroy()
+			elif mac=="":
+				mac="FFFFFF"
+			else:
+				print("stampa")
+			
+		elif response == Gtk.ResponseType.CANCEL:
+			print("The Cancel button was clicked")
+
+		dialog.destroy()
+
+		
 
 class DInserisciDestinatario(Gtk.Dialog):
 	def __init__(self, parent):

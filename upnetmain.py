@@ -3,7 +3,7 @@ gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
 
 from FGets import FGets
-from INDest import DInserisciDestinatario
+from INDest import apriDialogo
 
 class FMain(Gtk.Window):
 	def __init__(self):
@@ -104,34 +104,9 @@ class FMain(Gtk.Window):
 		  filter_any.add_pattern("*")
 		  dialog.add_filter(filter_any)
 
-	def btClickAggiungi(self,button):
-		msg1 = Gtk.MessageDialog(
-            transient_for=self,
-            flags=0,
-            message_type=Gtk.MessageType.INFO,
-            buttons=Gtk.ButtonsType.OK,
-            text="Inserisci il nome",
-        )
-		msg2(
-            transient_for=self,
-            flags=0,
-            message_type=Gtk.MessageType.INFO,
-            buttons=Gtk.ButtonsType.OK,
-            text="Inserisci l'IP",
-        )
-		dialog = DInserisciDestinatario(self)
-		response = dialog.run()
-		if response == Gtk.ResponseType.OK:
-			if dialog.enNome.get_text()=="":
-				msg.run()
-				msg.destroy()
-            #print("Click OK")
-		elif response == Gtk.ResponseType.CANCEL:
-			print("The Cancel button was clicked")
+	def btClickAggiungi(self,button):		
+		dialog = apriDialogo()
 
-		dialog.destroy()
-
-		print("Hai cliccato AGGIUNGI")
 	def btClickAvvia(self,button):
 		print("Hai cliccato AVVIA")
 	def main(self):
