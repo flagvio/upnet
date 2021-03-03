@@ -1,11 +1,13 @@
 import gi
 gi.require_version('Gtk', '3.0')
-
 from gi.repository import Gtk
+
+from FGets import FGets
 
 class FMain(Gtk.Window):
 	def __init__(self):
 		super(FMain, self).__init__(title="Aggiorna in rete")
+		self.f=FGets("pc.csv")
 		#self = Gtk.Window()
 		self.set_default_size(800, 500)
 		self.set_position(Gtk.WindowPosition.CENTER)
@@ -69,26 +71,20 @@ class FMain(Gtk.Window):
 		
 	def listaPC(self):
 		listbox = Gtk.ListBox()
-		
-		row = Gtk.ListBoxRow()
-		hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-		label1 = Gtk.Label(label="Automatic Date & Time", xalign=0)
-		label2 = Gtk.Label(label="Requires internet access", xalign=0)
-		hbox.pack_start(label1, True, True, 0)
-		hbox.pack_start(label2, True, True, 0)
-		row.add(hbox)
-		listbox.add(row)
+			
 
-		row = Gtk.ListBoxRow()
-		hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
-		label1 = Gtk.Label(label="bau", xalign=0)
-		label2 = Gtk.Label(label="miao", xalign=0)
-		hbox.pack_start(label1, True, True, 0)
-		hbox.pack_start(label2, True, True, 0)
-		row.add(hbox)
-		listbox.add(row)
-		
-		
+		for riga in self.f.dati:
+			hbox = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
+			row = Gtk.ListBoxRow()
+			label1 = Gtk.Label(label=riga[0], xalign=0)
+			label2 = Gtk.Label(label=riga[1], xalign=0)
+			label3 = Gtk.Label(label=riga[2], xalign=0)
+			hbox.pack_start(label1, True, True, 0)
+			hbox.pack_start(label2, True, True, 0)
+			hbox.pack_start(label3, True, True, 0)
+			row.add(hbox)
+			listbox.add(row)
+			
 		return listbox
 	def btClickScegli(self,button):
 		#print("Hai cliccato ...")
