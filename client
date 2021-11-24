@@ -1,0 +1,37 @@
+import socket
+import os
+import csv
+
+def Main():
+    while(True):
+        try:
+	        with open("./pc.csv",encoding="ISO-8859-1") as filecsv:
+	    	    lettore = csv.reader(filecsv,delimiter=";")
+        except FileNotFoundError:
+	        print("Errore apertura file")
+
+        SEPARATOR = "<SEPARATOR>"
+        BUFFER_SIZE = 1024
+
+        host = "127.0.0.1"
+        port = 5005 
+        filename = "invio2.txt"
+        filesize = os.path.getsize(filename)
+        s = socket.socket()
+
+        print(f"[+] connecting to {host}:{port}")
+        s.connect((host,port))
+        print("[+] Connected")
+
+        s.send(f"{filename}{SEPARATOR}{filesize}".encode())
+
+        with open(filename, "rb") as f:
+            while True:
+                bytes_read = f.read(BUFFER_SIZE)
+                if not bytes_read:
+                    break
+                s.sendall(bytes_read)
+    s.close()
+
+if __name__ == '__main__':
+	Main()
